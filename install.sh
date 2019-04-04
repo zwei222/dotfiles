@@ -28,6 +28,7 @@ set_env_var() {
   REPOSITORY="https://github.com/zwei222/dotfiles.git"
   DOTFILES_DIR="${REPOSITORY_DIR}/dotfiles"
   ZPLUG_DIR="${HOME}/.zplug"
+  ANYENV_DIR="${HOME}/.anyenv"
 }
 
 install_required() {
@@ -57,11 +58,23 @@ install_required() {
       curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
     fi
   fi
+
+  if [ ! -e ${ANYENV_DIR} ]; then
+    git clone https://github.com/anyenv/anyenv ${ANYENV_DIR}
+  fi
 }
 
 clone_dotfiles() {
   if [ ! -e ${DOTFILES_DIR} ]; then
     git clone ${REPOSITORY} ${REPOSITORY_DIR}
+  fi
+}
+
+install_anyenv_plugins() {
+  local plugins="${ANYENV_DIR}/plugins"
+
+  if [ ! -e ${plugins} ]; then
+    git clone https://github.com/znz/anyenv-update.git ${plugins}/anyenv-update
   fi
 }
 
@@ -77,6 +90,7 @@ main() {
   set_env_var
   install_required
   clone_dotfiles
+  install_anyenv_plugins
   deploy_dotfiles
 
   exit 0
