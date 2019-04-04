@@ -65,7 +65,12 @@ install_required() {
 }
 
 clone_dotfiles() {
-  if [ ! -e ${DOTFILES_DIR} ]; then
+  if [ -e ${DOTFILES_DIR} ]; then
+    local path=$(pwd)
+    cd ${REPOSITORY_DIR}
+    git pull
+    cd ${path}
+  else
     git clone ${REPOSITORY} ${REPOSITORY_DIR}
   fi
 }
