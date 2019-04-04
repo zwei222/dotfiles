@@ -24,7 +24,7 @@ set_env_var() {
   fi
 
   ROOT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
-  DOTFILES_DIR="${ROOT_DIR}/dotfiles"
+  DOTFILES_DIR="${HOME}/dotfiles"
   ZPLUG_DIR="${HOME}/.zplug"
 }
 
