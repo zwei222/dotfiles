@@ -25,7 +25,7 @@ then
     HOME=/root
 else
     PROMPT="%{[$[32+$RANDOM % 5]m%}$LOGNAME@%m%B[%W %T]:%b%{[m%} %h%% "
-    RPROMPT="${vcs_info_msg_0_}[%{[33m%}%~%{[m%}]"
+    RPROMPT="[%{[33m%}%~%{[m%}]"
 fi
 
 # load zplug config
@@ -42,6 +42,7 @@ compinit
 # enabled vcs_info
 autoload -Uz vcs_info
 setopt prompt_subst
+RPROMPT=${vcs_info_msg_0_}$RPROMPT
 
 # history
 HISTFILE=~/.zsh_history
@@ -72,7 +73,10 @@ alias reload="exec ${SHELL} -l"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
-zstyle ':vcs_info:*' formats '(%b)'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:*' formats '%F{green}(%b)'
+zstyle ':vcs_info:git:*' unstagedstr '%F{red}+'
+zstyle ':vcs_info:git:*' stagedstr '%F{yellow}!'
 
 # function
 ## cd with fzf
