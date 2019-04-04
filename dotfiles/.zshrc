@@ -62,6 +62,7 @@ alias lsf="ls | fzf"
 alias llf="ls -l | fzf"
 alias laf="ls -lhAF | fzf"
 alias diff="colordiff -u"
+alias reload="exec ${SHELL} -l"
 
 # zstyle
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
