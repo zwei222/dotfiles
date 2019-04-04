@@ -25,6 +25,7 @@ set_env_var() {
 
   ROOT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
   DOTFILES_DIR="${ROOT_DIR}/dotfiles"
+  ZPLUG_DIR="~/.zplug"
 }
 
 install_required() {
@@ -41,12 +42,18 @@ install_required() {
     sudo apt install -y git
     sudo apt install -y zsh
     sudo apt install -y colordiff
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+
+    if [ ! -e ${ZPLUG_DIR} ]; then
+      curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
   elif [ ${OS} = "CentOS" ]; then
     sudo yum install -y git
     sudo yum install -y zsh
     sudo yum install -y colordiff
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+
+    if [ ! -e ${ZPLUG_DIR} ]; then
+      curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
   fi
 }
 
