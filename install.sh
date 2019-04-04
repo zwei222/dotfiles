@@ -33,14 +33,17 @@ install_required() {
       /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
+    brew install git
     brew install zsh
     brew install zplug
     brew install colordiff
   elif [ ${OS} = "Ubuntu" ]; then
+    sudo apt install -y git
     sudo apt install -y zsh
     sudo apt install -y zplug
     sudo apt install -y colordiff
   elif [ ${OS} = "CentOS" ]; then
+    sudo yum install -y git
     sudo yum install -y zsh
     sudo yum install -y zplug
     sudo yum install -y colordiff
