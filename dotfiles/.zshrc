@@ -25,7 +25,7 @@ then
     HOME=/root
 else
     PROMPT="%{[$[32+$RANDOM % 5]m%}$LOGNAME@%m%B[%W %T]:%b%{[m%} %h%% "
-    RPROMPT="[%{[33m%}%~%{[m%}]"
+    RPROMPT="${vcs_info_msg_0_}[%{[33m%}%~%{[m%}]"
 fi
 
 # load zplug config
@@ -38,6 +38,10 @@ colors
 # enabled auto-complete
 autoload -U compinit
 compinit
+
+# enabled vcs_info
+autoload -Uz vcs_info
+setopt prompt_subst
 
 # history
 HISTFILE=~/.zsh_history
@@ -68,6 +72,7 @@ alias reload="exec ${SHELL} -l"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
+zstyle ':vcs_info:*' formats '(%b)'
 
 # function
 ## cd with fzf
@@ -76,6 +81,11 @@ cdf() {
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "${dir}"
+}
+
+## pre-prompt command
+precmd() {
+  vcs_info
 }
 
 # zplug
