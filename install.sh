@@ -40,13 +40,13 @@ install_required() {
   elif [ ${OS} = "Ubuntu" ]; then
     sudo apt install -y git
     sudo apt install -y zsh
-    sudo apt install -y zplug
     sudo apt install -y colordiff
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   elif [ ${OS} = "CentOS" ]; then
     sudo yum install -y git
     sudo yum install -y zsh
-    sudo yum install -y zplug
     sudo yum install -y colordiff
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
   fi
 }
 
