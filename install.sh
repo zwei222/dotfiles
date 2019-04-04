@@ -25,7 +25,7 @@ set_env_var() {
 
   ROOT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
   DOTFILES_DIR="${ROOT_DIR}/dotfiles"
-  ZPLUG_DIR="~/.zplug"
+  ZPLUG_DIR="${HOME}/.zplug"
 }
 
 install_required() {
@@ -61,7 +61,7 @@ deploy_dotfiles() {
   cd ${DOTFILES_DIR}
 
   for dotfile in .??*; do
-    ln -sfn ${DOTFILES_DIR}/${dotfile} ~/${dotfile}
+    ln -sfn ${DOTFILES_DIR}/${dotfile} ${HOME}/${dotfile}
   done
 }
 
