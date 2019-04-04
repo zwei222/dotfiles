@@ -25,7 +25,7 @@ set_env_var() {
 
   ROOT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
   DOTFILES_DIR="${HOME}/dotfiles"
-  REPOSITORY="git@github.com:zwei222/dotfiles.git"
+  REPOSITORY="https://github.com/zwei222/dotfiles.git"
   ZPLUG_DIR="${HOME}/.zplug"
 }
 
@@ -60,7 +60,7 @@ install_required() {
 
 clone_dotfiles() {
   if [ ! -e ${DOTFILES_DIR} ]; then
-    git clone "${REPOSITORY}" "${DOTFILES_DIR}"
+    git clone ${REPOSITORY} ${DOTFILES_DIR}
   fi
 }
 
