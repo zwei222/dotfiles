@@ -24,7 +24,10 @@ set_env_var() {
   fi
 
   ROOT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
-  DOTFILES_DIR="${ROOT_DIR}/dotfiles"
+  REPOSITORY_DIR="${HOME}/dotfiles"
+  REPOSITORY="https://github.com/zwei222/dotfiles.git"
+  DOTFILES_DIR="${REPOSITORY_DIR}/dotfiles"
+  ZPLUG_DIR="${HOME}/.zplug"
 }
 
 install_required() {
@@ -41,12 +44,24 @@ install_required() {
     sudo apt install -y git
     sudo apt install -y zsh
     sudo apt install -y colordiff
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+
+    if [ ! -e ${ZPLUG_DIR} ]; then
+      curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
   elif [ ${OS} = "CentOS" ]; then
     sudo yum install -y git
     sudo yum install -y zsh
     sudo yum install -y colordiff
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+
+    if [ ! -e ${ZPLUG_DIR} ]; then
+      curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
+  fi
+}
+
+clone_dotfiles() {
+  if [ ! -e ${DOTFILES_DIR} ]; then
+    git clone ${REPOSITORY} ${REPOSITORY_DIR}
   fi
 }
 
@@ -54,13 +69,14 @@ deploy_dotfiles() {
   cd ${DOTFILES_DIR}
 
   for dotfile in .??*; do
-    ln -sfn ${DOTFILES_DIR}/${dotfile} ~/${dotfile}
+    ln -sfn ${DOTFILES_DIR}/${dotfile} ${HOME}/${dotfile}
   done
 }
 
 main() {
   set_env_var
   install_required
+  clone_dotfiles
   deploy_dotfiles
 
   exit 0
