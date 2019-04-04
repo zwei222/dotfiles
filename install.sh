@@ -26,7 +26,7 @@ set_env_var() {
   ROOT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
   REPOSITORY_DIR="${HOME}/dotfiles"
   REPOSITORY="https://github.com/zwei222/dotfiles.git"
-  DOTFILES_DIR="${REPOSITORY_DIR/dotfiles}"
+  DOTFILES_DIR="${REPOSITORY_DIR}/dotfiles"
   ZPLUG_DIR="${HOME}/.zplug"
 }
 
