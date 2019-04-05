@@ -82,9 +82,10 @@ install_required() {
   ${PYENV} install ${PYTHON3}
   ${PYENV} global ${PYTHON3}
   git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
-  eval "$(${PYENV} virtualenv-init -)"
+  ${PYENV} virtualenv-init -
   ${PYENV} virtualenv ${PYTHON3} neovim3
-  pip install neovim
+  ${PYENV} activate neovim3
+  pip install -I neovim
 }
 
 clone_dotfiles() {

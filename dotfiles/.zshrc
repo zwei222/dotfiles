@@ -17,6 +17,10 @@ export TERM=xterm-256color
 export PATH="${HOME}/.anyenv/bin:${PATH}"
 eval "$(anyenv init -)"
 
+## pyenv
+eval "$(pyenv virtualenv-init -)"
+
+## prompt
 if [ ${USER} = "root" ] 
 then
     PROMPT="%{[$[31]m%}%B$LOGNAME@%m[%W %T]:%b%{[m%} %h# "
