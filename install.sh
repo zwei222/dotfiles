@@ -29,6 +29,9 @@ set_env_var() {
   DOTFILES_DIR="${REPOSITORY_DIR}/dotfiles"
   ZPLUG_DIR="${HOME}/.zplug"
   ANYENV_DIR="${HOME}/.anyenv"
+  ANYENV="${ANYENV_DIR}/bin/anyenv"
+  PYENV_DIR="${ANYENV_DIR}/envs/pyenv"
+  PYENV="${PYENV_DIR}/bin/pyenv"
 }
 
 install_required() {
@@ -71,7 +74,17 @@ install_required() {
 
   if [ ! -e ${ANYENV_DIR} ]; then
     git clone https://github.com/anyenv/anyenv ${ANYENV_DIR}
+    ${ANYENV} install --force-init
   fi
+
+  ${ANYENV} install pyenv
+  PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
+  ${PYENV} install ${PYTHON3}
+  ${PYENV} global ${PYTHON3}
+  git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
+  eval "$(${PYENV} virtualenv-init -)"
+  ${PYENV} virtualenv ${PYTHON3} neovim3
+  pip install neovim
 }
 
 clone_dotfiles() {
