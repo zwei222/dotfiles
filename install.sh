@@ -29,6 +29,9 @@ set_env_var() {
   DOTFILES_DIR="${REPOSITORY_DIR}/dotfiles"
   ZPLUG_DIR="${HOME}/.zplug"
   ANYENV_DIR="${HOME}/.anyenv"
+  ANYENV="${ANYENV_DIR}/bin/anyenv"
+  PYENV_DIR="${ANYENV_DIR}/envs/pyenv"
+  PYENV="${PYENV_DIR}/bin/pyenv"
 }
 
 install_required() {
@@ -41,7 +44,9 @@ install_required() {
     brew install zsh
     brew install zplug
     brew install colordiff
+    brew install neovim
   elif [ ${OS} = "Ubuntu" ]; then
+    sudo apt install -y build-essential libbz2-dev libdb-dev libreadline-dev libffi-dev libgdbm-dev liblzma-dev libncursesw5-dev libsqlite3-dev libssl-dev zlib1g-dev uuid-dev tk-dev
     sudo apt install -y git
     sudo apt install -y zsh
     sudo apt install -y colordiff
@@ -49,6 +54,11 @@ install_required() {
     if [ ! -e ${ZPLUG_DIR} ]; then
       curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
     fi
+
+    sudo apt install -y software-properties-common
+    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo apt update
+    sudo apt install -y neovim
   elif [ ${OS} = "CentOS" ]; then
     sudo yum install -y git
     sudo yum install -y zsh
@@ -57,11 +67,24 @@ install_required() {
     if [ ! -e ${ZPLUG_DIR} ]; then
       curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
     fi
+
+    sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    sudo yum install -y neovim
   fi
 
   if [ ! -e ${ANYENV_DIR} ]; then
     git clone https://github.com/anyenv/anyenv ${ANYENV_DIR}
+    ${ANYENV} install --force-init
   fi
+
+  ${ANYENV} install pyenv
+  PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
+  ${PYENV} install ${PYTHON3}
+  ${PYENV} global ${PYTHON3}
+  git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
+  eval "$(${PYENV} virtualenv-init -)"
+  ${PYENV} virtualenv ${PYTHON3} neovim3
+  pip install neovim
 }
 
 clone_dotfiles() {

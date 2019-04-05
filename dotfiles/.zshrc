@@ -59,7 +59,16 @@ setopt hist_verify
 alias cp="cp -ir"
 alias mv="mv -ir"
 alias rm="rm -ir"
-alias ls="ls -G --color=auto"
+
+case ${OSTYPE} in
+  darwin*)
+    alias ls="ls -G"
+    ;;
+  linux*)
+    alias ls="ls --color=auto"
+    ;;
+esac
+
 alias ll="ls -l"
 alias la="ls -lhAF"
 alias ps="ps aux"
@@ -68,6 +77,10 @@ alias llf="ls -l | fzf"
 alias laf="ls -lhAF | fzf"
 alias diff="colordiff -u"
 alias reload="exec ${SHELL} -l"
+
+if type "nvim" > /dev/null; then
+  alias vim="nvim"
+fi
 
 # zstyle
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
