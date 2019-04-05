@@ -57,7 +57,7 @@ install_required() {
     fi
 
     sudo apt install -y software-properties-common
-    sudo add-apt-repository ppa:neovim-ppa/stable --force-yes
+    sudo add-apt-repository ppa:neovim-ppa/stable -y
     sudo apt update
     sudo apt install -y neovim
   elif [ ${OS} = "CentOS" ]; then
