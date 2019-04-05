@@ -41,7 +41,9 @@ install_required() {
     brew install zsh
     brew install zplug
     brew install colordiff
+    brew install neovim
   elif [ ${OS} = "Ubuntu" ]; then
+    sudo apt install -y build-essential libbz2-dev libdb-dev libreadline-dev libffi-dev libgdbm-dev liblzma-dev libncursesw5-dev libsqlite3-dev libssl-dev zlib1g-dev uuid-dev tk-dev
     sudo apt install -y git
     sudo apt install -y zsh
     sudo apt install -y colordiff
@@ -49,6 +51,11 @@ install_required() {
     if [ ! -e ${ZPLUG_DIR} ]; then
       curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
     fi
+
+    sudo apt install -y software-properties-common
+    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo apt update
+    sudo apt install -y neovim
   elif [ ${OS} = "CentOS" ]; then
     sudo yum install -y git
     sudo yum install -y zsh
@@ -57,6 +64,9 @@ install_required() {
     if [ ! -e ${ZPLUG_DIR} ]; then
       curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
     fi
+
+    sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    sudo yum install -y neovim
   fi
 
   if [ ! -e ${ANYENV_DIR} ]; then
