@@ -32,6 +32,7 @@ set_env_var() {
   ANYENV="${ANYENV_DIR}/bin/anyenv"
   PYENV_DIR="${ANYENV_DIR}/envs/pyenv"
   PYENV="${PYENV_DIR}/bin/pyenv"
+  PYENV_VIRTUALENV="${PYENV_DIR}/plugins/pyenv-virtualenv"
 }
 
 install_required() {
@@ -56,7 +57,7 @@ install_required() {
     fi
 
     sudo apt install -y software-properties-common
-    sudo add-apt-repository ppa:neovim-ppa/stable
+    sudo add-apt-repository ppa:neovim-ppa/stable --force-yes
     sudo apt update
     sudo apt install -y neovim
   elif [ ${OS} = "CentOS" ]; then
@@ -81,7 +82,11 @@ install_required() {
   PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
-  git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
+
+  if [ ! -e ${PYENV_VIRTUALENV} ]; then
+    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
+  fi
+
   ${PYENV} virtualenv-init -
   exec ${SHELL} -l
   ${PYENV} virtualenv ${PYTHON3} neovim3
