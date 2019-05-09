@@ -23,12 +23,12 @@ eval "$(pyenv virtualenv-init -)"
 ## prompt
 if [ ${USER} = "root" ] 
 then
-    PROMPT="%{[$[31]m%}%B$LOGNAME@%m[%W %T]:%b%{[m%} %h# "
+    PROMPT="%{[$[31]m%}%B$LOGNAME@%m[%D %T]:%b%{[m%} %h# "
     RPROMPT="[%{[31m%}%~%{[m%}]"
     PATH=${PATH}:/sbin:/usr/sbin:/usr/local/sbin
     HOME=/root
 else
-    PROMPT="%{[$[32+$RANDOM % 5]m%}$LOGNAME@%m%B[%W %T]:%b%{[m%} %h%% "
+    PROMPT="%{[$[32+$RANDOM % 5]m%}$LOGNAME@%m%B[%D %T]:%b%{[m%} %h%% "
     RPROMPT="[%{[33m%}%~%{[m%}]"
 fi
 
