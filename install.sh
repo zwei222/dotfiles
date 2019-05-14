@@ -113,6 +113,10 @@ install_anyenv_plugins() {
   fi
 }
 
+create_exclusive_dotfiles() {
+  touch ${DOTFILES_DIR}/.zshrc_exclusive
+}
+
 deploy_dotfiles() {
   cd ${DOTFILES_DIR}
 
@@ -126,6 +130,7 @@ main() {
   install_required
   clone_dotfiles
   install_anyenv_plugins
+  create_exclusive_dotfiles
   deploy_dotfiles
 
   exit 0
