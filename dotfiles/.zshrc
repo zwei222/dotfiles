@@ -35,6 +35,9 @@ fi
 # load zplug config
 source ~/.zplug/init.zsh
 
+# load exclusive .zshrc
+source ~/.zshrc_exclusive
+
 # enabled prompt color
 autoload -Uz colors
 colors
@@ -96,6 +99,11 @@ zstyle ':vcs_info:git:*' unstagedstr '%F{red}+'
 zstyle ':vcs_info:git:*' stagedstr '%F{yellow}!'
 
 # function
+## display all history
+history-all() {
+  history -E 1
+}
+
 ## cd with fzf
 cdf() {
   local dir
