@@ -64,7 +64,7 @@ setopt hist_verify
 
 # alias
 alias cp="cp -ir"
-alias mv="mv -ir"
+alias mv="mv -i"
 alias rm="rm -ir"
 
 case ${OSTYPE} in
@@ -77,6 +77,7 @@ case ${OSTYPE} in
 esac
 
 alias ll="ls -l"
+alias lt="ls -lt"
 alias la="ls -lhAF"
 alias ps="ps aux"
 alias lsf="ls | fzf"
