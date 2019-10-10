@@ -90,6 +90,9 @@ if type "nvim" > /dev/null; then
   alias vim="nvim"
 fi
 
+# suffix alias
+alias -s {gz,tgz,zip,lzh,bz2,tbz,Z,tar,arj,xz}=extract
+
 # zstyle
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -101,20 +104,42 @@ zstyle ':vcs_info:git:*' stagedstr '%F{yellow}!'
 
 # function
 ## display all history
-history-all() {
+function history-all() {
   history -E 1
 }
 
 ## cd with fzf
-cdf() {
+function cdf() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "${dir}"
 }
 
+## mkdir and cd
+function mcd() {
+  mkdir -p "$@" && eval cd "\"\$$#\"";
+}
+
+## extract compressed file
+function extract() {
+  case $1 in
+    *.tar.gz|*.tgz) tar xzvf $1;;
+    *.tar.xz) tar Jxvf $1;;
+    *.zip) unzip $1;;
+    *.lzh) lha e $1;;
+    *.tar.bz2|*.tbz) tar xjvf $1;;
+    *.tar.Z) tar zxvf $1;;
+    *.gz) gzip -d $1;;
+    *.bz2) bzip2 -dc $1;;
+    *.Z) uncompress $1;;
+    *.tar) tar xvf $1;;
+    *.arj) unarj $1;;
+  esac
+}
+
 ## pre-prompt command
-precmd() {
+function precmd() {
   vcs_info
 }
 
