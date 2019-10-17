@@ -77,7 +77,7 @@ case ${OSTYPE} in
 esac
 
 alias ll="ls -l"
-alias lt="ls -lt"
+alias lt="ls -ltr"
 alias la="ls -lhAF"
 alias ps="ps aux"
 alias lsf="ls | fzf"
