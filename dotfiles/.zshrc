@@ -69,20 +69,22 @@ alias rm="rm -ir"
 
 case ${OSTYPE} in
   darwin*)
-    alias ls="ls -G"
+    alias ls="ls -FG"
     ;;
   linux*)
-    alias ls="ls --color=auto"
+    alias ls="ls -F --color=auto"
     ;;
 esac
 
-alias ll="ls -l"
-alias lt="ls -ltr"
-alias la="ls -lhAF"
+alias fzf="fzf -0"
+alias ll="ls -lhF --time-style=+'%Y-%m-%d %H:%M:%S'"
+alias lt="ls -lhtrF --time-style=+'%Y-%m-%d %H:%M:%S'"
+alias la="ls -lhAF --time-style=+'%Y-%m-%d %H:%M:%S'"
 alias ps="ps aux"
-alias lsf="ls | fzf"
-alias llf="ls -l | fzf"
-alias laf="ls -lhAF | fzf"
+alias lsf="ls | fzf -0"
+alias ltf="ls -lhtrF --time-style=+'%Y-%m-%d %H:%M:%S' | tail -n +2 | fzf -0"
+alias llf="ls -lhF --time-style=+'%Y-%m-%d %H:%M:%S' | tail -n +2 | fzf -0"
+alias laf="ls -lhAF --time-style=+'%Y-%m-%d %H:%M:%S' | tail -n +2 | fzf -0"
 alias diff="colordiff -u"
 alias reload="exec ${SHELL} -l"
 
