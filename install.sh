@@ -80,7 +80,7 @@ install_required() {
 
   ${ANYENV} install -s pyenv
   export PATH=${PYENV_DIR}/bin:${PATH}
-  eval "$(pyenv init -)"
+  eval "$(${PYENV} init -)"
   PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
@@ -90,7 +90,6 @@ install_required() {
   fi
 
   ${PYENV} virtualenv-init -
-  export PATH=${PYENV_DIR}/bin:${PATH}
   ${PYENV} virtualenv ${PYTHON3} neovim3
   ${PYENV} activate neovim3
   pip install -I neovim
