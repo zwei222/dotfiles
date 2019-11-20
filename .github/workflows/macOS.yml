@@ -3,11 +3,11 @@ name: Testing macOS
 on: push
 
 jobs:
-  build:
+  test:
+    name: Install test
     runs-on: macos-latest
 
     steps:
-      - continue-on-error: false
       - uses: actions/checkout@master
       - name: Run install.sh
         run: bash ./install.sh
