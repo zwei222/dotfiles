@@ -80,6 +80,7 @@ install_required() {
 
   ${ANYENV} install -s pyenv
   export PATH=${PYENV_DIR}/bin:${PATH}
+  eval "$(pyenv init -)"
   PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
