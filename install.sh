@@ -80,11 +80,11 @@ install_required() {
 
   ${ANYENV} install -s pyenv
   export PATH=${PYENV_DIR}/bin:${PATH}
-  eval "$(${PYENV} init -)"
+  eval "$(pyenv init -)"
   which pyenv
-  PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
-  ${PYENV} install -s ${PYTHON3}
-  ${PYENV} global ${PYTHON3}
+  PYTHON3=$(pyenv install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
+  pyenv install -s ${PYTHON3}
+  pyenv global ${PYTHON3}
 
   if [ ! -e ${PYENV_VIRTUALENV} ]; then
     git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
