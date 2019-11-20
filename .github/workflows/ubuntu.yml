@@ -1,0 +1,13 @@
+name: Testing ubuntu
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - continue-on-error: false
+      - uses: actions/checkout@master
+      - name: Run install.sh
+        run: bash ./install.sh

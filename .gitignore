@@ -1,3 +1,8 @@
 # exclusive use .zshrc
 .zshrc_exclusive
 
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
