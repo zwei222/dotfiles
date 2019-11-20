@@ -79,6 +79,7 @@ install_required() {
   fi
 
   ${ANYENV} install -s pyenv
+  exec ${SHELL} -l
   PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
