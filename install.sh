@@ -31,8 +31,9 @@ set_env_var() {
   ANYENV_DIR="${HOME}/.anyenv"
   ANYENV="${ANYENV_DIR}/bin/anyenv"
   PYENV_ROOT="${ANYENV_DIR}/envs/pyenv"
-  PYENV="${PYENV_ROOT}/bin/pyenv"
-  PYENV_VIRTUALENV="${PYENV_ROOT}/plugins/pyenv-virtualenv"
+  PYENV="${PYENV_DIR}/bin/pyenv"
+  PYENV_PLUGINS="${PYENV_DIR}/plugins"
+  PYENV_VIRTUALENV="${PYENV_PLUGINS}/pyenv-virtualenv"
 }
 
 install_required() {
@@ -79,7 +80,7 @@ install_required() {
   fi
 
   ${ANYENV} install -s pyenv
-  exec bash -l
+  bash ${PYENV_PLUGINS}/python-build/install.sh
   PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
