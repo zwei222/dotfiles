@@ -30,7 +30,7 @@ set_env_var() {
   ZPLUG_DIR="${HOME}/.zplug"
   ANYENV_DIR="${HOME}/.anyenv"
   ANYENV="${ANYENV_DIR}/bin/anyenv"
-  PYENV_ROOT="${ANYENV_DIR}/envs/pyenv"
+  PYENV_DIR="${ANYENV_DIR}/envs/pyenv"
   PYENV="${PYENV_DIR}/bin/pyenv"
   PYENV_PLUGINS="${PYENV_DIR}/plugins"
   PYENV_VIRTUALENV="${PYENV_PLUGINS}/pyenv-virtualenv"
