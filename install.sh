@@ -86,10 +86,10 @@ install_required() {
   ${PYENV} global ${PYTHON3}
 
   if [ ! -e ${PYENV_VIRTUALENV} ]; then
-    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_PLUGINS}/pyenv-virtualenv
+    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_VIRTUALENV}
   fi
 
-  exec bash -l
+  bash ${PYENV_VIRTUALENV}/install.sh
   eval "$(${PYENV} virtualenv-init -)"
   ${PYENV} virtualenv-init -
   ${PYENV} virtualenv ${PYTHON3} neovim3
