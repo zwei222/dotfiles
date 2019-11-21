@@ -86,9 +86,10 @@ install_required() {
   ${PYENV} global ${PYTHON3}
 
   if [ ! -e ${PYENV_VIRTUALENV} ]; then
-    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
+    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_PLUGINS}/pyenv-virtualenv
   fi
 
+  eval "$(${PYENV} virtualenv-init -)"
   ${PYENV} virtualenv-init -
   ${PYENV} virtualenv ${PYTHON3} neovim3
   ${PYENV} activate neovim3
@@ -126,6 +127,14 @@ deploy_dotfiles() {
   done
 }
 
+change_shell() {
+  if [ ${SHELL} = $(which zsh) ]; then
+    echo "Already set zsh."
+  else
+    chsh -s $(which zsh)
+  fi
+}
+
 main() {
   set_env_var
   install_required
@@ -133,6 +142,7 @@ main() {
   install_anyenv_plugins
   create_exclusive_dotfiles
   deploy_dotfiles
+  change_shell
 
   exit 0
 }
