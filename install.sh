@@ -86,7 +86,7 @@ install_required() {
   ${PYENV} global ${PYTHON3}
 
   if [ ! -e ${PYENV_VIRTUALENV} ]; then
-    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_VIRTUALENV}
+    git clone https://github.com/pyenv/pyenv-virtualenv.git ${PYENV_VIRTUALENV}
   fi
 
   bash ${PYENV_VIRTUALENV}/install.sh
