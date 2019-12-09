@@ -44,7 +44,11 @@ install_required() {
 
     brew install git
     brew install zsh
-    brew install zplug
+
+    if [ ! -e ${ZPLUG_DIR} ]; then
+      curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
+
     brew install colordiff
     brew install neovim
   elif [ ${OS} = "Ubuntu" ]; then
@@ -81,7 +85,7 @@ install_required() {
 
   ${ANYENV} install -s pyenv
   bash ${PYENV_PLUGINS}/python-build/install.sh
-  PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
+  PYTHON3=$(echo $(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1))
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
 
