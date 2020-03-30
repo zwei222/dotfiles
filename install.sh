@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -euo pipefail
 
 set_env_var() {
   UNAME=$(uname)
@@ -32,7 +32,8 @@ set_env_var() {
   ANYENV="${ANYENV_DIR}/bin/anyenv"
   PYENV_DIR="${ANYENV_DIR}/envs/pyenv"
   PYENV="${PYENV_DIR}/bin/pyenv"
-  PYENV_VIRTUALENV="${PYENV_DIR}/plugins/pyenv-virtualenv"
+  PYENV_PLUGINS="${PYENV_DIR}/plugins"
+  PYENV_VIRTUALENV="${PYENV_PLUGINS}/pyenv-virtualenv"
 }
 
 install_required() {
@@ -43,7 +44,11 @@ install_required() {
 
     brew install git
     brew install zsh
-    brew install zplug
+
+    if [ ! -e ${ZPLUG_DIR} ]; then
+      curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
+
     brew install colordiff
     brew install neovim
   elif [ ${OS} = "Ubuntu" ]; then
@@ -79,16 +84,18 @@ install_required() {
   fi
 
   ${ANYENV} install -s pyenv
-  PYTHON3=$(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1)
+  bash ${PYENV_PLUGINS}/python-build/install.sh
+  PYTHON3=$(echo $(${PYENV} install -l | grep -v '[a-zA-Z]' | grep -e '\s3\.?*' | tail -1))
   ${PYENV} install -s ${PYTHON3}
   ${PYENV} global ${PYTHON3}
 
   if [ ! -e ${PYENV_VIRTUALENV} ]; then
-    git clone https://github.com/yyuu/pyenv-virtualenv.git ${PYENV_DIR}/plugins/pyenv-virtualenv
+    git clone https://github.com/pyenv/pyenv-virtualenv.git ${PYENV_VIRTUALENV}
   fi
 
+  bash ${PYENV_VIRTUALENV}/install.sh
+  eval "$(${PYENV} virtualenv-init -)"
   ${PYENV} virtualenv-init -
-  exec ${SHELL} -l
   ${PYENV} virtualenv ${PYTHON3} neovim3
   ${PYENV} activate neovim3
   pip install -I neovim
@@ -125,6 +132,14 @@ deploy_dotfiles() {
   done
 }
 
+change_shell() {
+  if [ ${SHELL} = $(which zsh) ]; then
+    echo "Already set zsh."
+  else
+    chsh -s $(which zsh)
+  fi
+}
+
 main() {
   set_env_var
   install_required
@@ -132,6 +147,7 @@ main() {
   install_anyenv_plugins
   create_exclusive_dotfiles
   deploy_dotfiles
+  change_shell
 
   exit 0
 }
