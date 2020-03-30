@@ -1,6 +1,9 @@
 # use escape sequence
 setopt prompt_subst
 
+# load exclusive .zshrc
+source ~/.zshrc_exclusive
+
 # default encoding
 export LANG=ja_JP.UTF-8
 export KCODE=u
@@ -35,9 +38,6 @@ fi
 # load zplug config
 source ~/.zplug/init.zsh
 
-# load exclusive .zshrc
-source ~/.zshrc_exclusive
-
 # enabled prompt color
 autoload -Uz colors
 colors
@@ -67,24 +67,48 @@ alias cp="cp -ir"
 alias mv="mv -i"
 alias rm="rm -ir"
 
-case ${OSTYPE} in
-  darwin*)
-    alias ls="ls -FG"
-    ;;
-  linux*)
-    alias ls="ls -F --color=auto"
-    ;;
-esac
+if [ -z ls ]
+then
+  ls="ls --time-style=+'%Y-%m-%d %H:%M:%S'"
 
+  case ${OSTYPE} in
+    darwin*)
+      ls="${ls} -FG"
+      ;;
+    linux*)
+      ls="${ls} -F --color=auto"
+      ;;
+  esac
+fi
+
+if [ -z find ]
+then
+  find="find"
+fi
+
+if [ -z grep ]
+then
+  grep="grep"
+fi
+
+if [ -z ps ]
+then
+  ps="ps"
+fi
+
+alias ls="${ls}"
+alias find="${find}"
+alias grep="${grep}"
+alias ps="${ps}"
 alias fzf="fzf -0"
-alias ll="ls -lhF --time-style=+'%Y-%m-%d %H:%M:%S'"
-alias lt="ls -lhtrF --time-style=+'%Y-%m-%d %H:%M:%S'"
-alias la="ls -lhAF --time-style=+'%Y-%m-%d %H:%M:%S'"
+alias ll="${ls} -lh"
+alias lt="${ls} -lhtr"
+alias la="${ls} -lha"
 alias ps="ps aux"
-alias lsf="ls | fzf -0"
-alias ltf="ls -lhtrF --time-style=+'%Y-%m-%d %H:%M:%S' | tail -n +2 | fzf -0"
-alias llf="ls -lhF --time-style=+'%Y-%m-%d %H:%M:%S' | tail -n +2 | fzf -0"
-alias laf="ls -lhAF --time-style=+'%Y-%m-%d %H:%M:%S' | tail -n +2 | fzf -0"
+alias lsf="${ls} | fzf -0"
+alias ltf="${ls} -lhtr | tail -n +2 | fzf -0"
+alias llf="${ls} -lh | tail -n +2 | fzf -0"
+alias laf="${ls} -lha | tail -n +2 | fzf -0"
 alias diff="colordiff -u"
 alias reload="exec ${SHELL} -l"
 
@@ -113,7 +137,7 @@ function history-all() {
 ## cd with fzf
 function cdf() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
+  dir=$(${find} ${1:-.} -path '*/\.*' -prune \
                   -o -type d -print 2> /dev/null | fzf +m) &&
   cd "${dir}"
 }
